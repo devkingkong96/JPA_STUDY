@@ -13,7 +13,7 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-//            test commit
+
             em.find(Member.class, 1L);
 
 
