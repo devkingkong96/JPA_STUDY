@@ -4,31 +4,50 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Member {
-    @Id
+
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
-    @Column(name = "name") //컬럼 매핑
+
+    @Column(name = "USERNAME")
     private String username;
-    private Integer age;
-    @Enumerated(EnumType.STRING) //enum 타입 매핑
-    private RoleType roleType;
-    @Temporal(TemporalType.TIMESTAMP) //날짜 타입 매핑
-    private Date createdDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
 
-    private LocalDate testLocalDate; //년월
-    private LocalDateTime testLocalDateTime; //년월일
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
 
-    @Lob //큰 값을 쓰고 싶을 때 -> BLOB, CLOB 매핑
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
-    @Transient //DB와 연결하지 말라는 어노테이션(메모리에서만 사용하고 싶을 때)
-    private int temp;
+    public Long getId() {
+        return id;
+    }
 
-    public Member(){
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setName(String name) {
+        this.username = name;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
