@@ -16,7 +16,7 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
     @ManyToOne
-    @JoinColumn(name = "TEAM_ID")
+    @JoinColumn(name = "TEAM_ID",insertable = false, updatable = false) //읽기 전용이 된다.
     private Team team;
 
     public Long getId() {
