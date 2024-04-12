@@ -16,17 +16,19 @@ public class JpaMain {
         tx.begin();
         try {
 
-            Member member = new Member();
-            member.setUsername("member1");
+            Movie movie = new Movie();
+            movie.setDirector("김봉원");
+            movie.setActor("이소라");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(10000);
 
-            em.persist(member);
+            em.persist(movie);
 
-            Team team = new Team();
-            team.setName("teamA");
+            em.flush(); //영속성 컨텍스트의 변경 내용을 DB에 반영
+            em.clear(); //영속성 컨텍스트 정리
 
-            team.getMembers().add(member);
-
-            em.persist(team);
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
 
             tx.commit();
         } catch (Exception e){
