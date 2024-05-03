@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Member extends BaseEntity{
+public class Member{
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -17,10 +17,25 @@ public class Member extends BaseEntity{
 
     @Column(name = "USERNAME")
     private String username;
-//    @ManyToOne(fetch = FetchType.LAZY) //지연 로딩을 세팅하면 연관된 걸 프록시로 가져옴
-    @ManyToOne(fetch = FetchType.EAGER) //즉시 로딩을 세팅하면 연관된 걸 실제 객체로 가져옴
-    @JoinColumn(name = "TEAM_ID",insertable = false, updatable = false) //읽기 전용이 된다.
-    private Team team;
+
+    //기간 Period
+    @Embedded
+    private Period workPeriod;
+
+    //주소
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city",
+                    column = @Column(name = "WORK_CITY")),
+            @AttributeOverride(name="endDate",
+                    column = @Column(name = "WORK_STREET")),
+            @AttributeOverride(name="zipcode",
+                    column = @Column(name = "WORK_ZIPCODE"))
+    })
+    private Address workAddress;
 
     public Long getId() {
         return id;
@@ -38,24 +53,19 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
-    public void setName(String name) {
-        this.username = name;
+    public Period getWorkPeriod() {
+        return workPeriod;
     }
 
-    public Team getTeam() {
-        return team;
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public Address getHomeAddress() {
+        return homeAddress;
     }
 
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", team=" + team +
-                '}';
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
 }
